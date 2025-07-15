@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Corrected line to avoid duplicate path
 current_dir = os.path.dirname(os.path.abspath("./models/RandomForestClassifier_default_42.sav"))
-model_path = os.path.join(current_dir, "random_forest_classifier_default_42.sav")  # Removed the redundant path
+model_path = os.path.join(current_dir, "random_forest_classifier_default_42.sav")  
 model = load(open(model_path, "rb"))
 
 class_dict = {

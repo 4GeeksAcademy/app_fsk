@@ -3,5 +3,5 @@ __pycache__
 .learn
 .venv
 ./data
-./modelsgit status
+./models
 .venv/
