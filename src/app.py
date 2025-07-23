@@ -1,38 +1,33 @@
-from flask import Flask, request, render_template
-from pickle import load
-import os
+   from flask import Flask, render_template, request
+   import os
+   from joblib import load
 
-app = Flask(__name__)
+   app = Flask(__name__)
 
-# Corrected line to avoid duplicate path
-current_dir = os.path.dirname(os.path.abspath("./models/RandomForestClassifier_default_42.sav"))
-model_path = os.path.join(current_dir, "RandomForestClassifier_default_42.sav")  
-model = load(open(model_path, "rb"))
+   # Ruta al modelo
+   model_path = os.path.join("models", "./models/RandomForestClassifier_default_42.sav")
+   model = load(open(model_path, "rb"))
 
-class_dict = {
-    "0": "Introvertido",
-    "1": "Extrovertido",
-}
-
-@app.route("/", methods=["GET", "POST"])
-def index():
-    pred_class = None
-    if request.method == "POST":
+   @app.route("/", methods=["GET", "POST"])
+   def index():
+       prediction = None
+       error = None
+       if request.method == "POST":
         try:
-            val1 = float(request.form["val1"])
-            val2 = float(request.form["val2"])
-            val3 = float(request.form["val3"])
-            val4 = float(request.form["val4"])
-            val5 = float(request.form["val5"])
-            val6 = float(request.form["val6"])
-            val7 = float(request.form["val7"])
-            
-            data = [[val1, val2, val3, val4, val5, val6, val7]]
-            prediction = str(model.predict(data)[0])
-            pred_class = class_dict[prediction]
+               # Obtener los valores del formulario
+               val1 = int(request.form["val1"])
+               val2 = int(request.form["val2"])
+               val3 = int(request.form["val3"])
+               val4 = int(request.form["val4"])
+               val5 = int(request.form["val5"])
+               val6 = int(request.form["val6"])
+               val7 = int(request.form["val7"])
+
+               prediction = model.predict([[val1, val2, val3, val4, val5, val6, val7]])
+
         except Exception as e:
-            return str(e) 
-    try:
-        return render_template("index.html", prediction=pred_class)
-    except Exception as e:
-        return str(e) 
+         error = str(e)
+
+       return render_template("index.html", prediction=prediction, error=error)
+
+  

@@ -1,81 +1,100 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predicción de Personalidad</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Sistema de predicción de personalidad introvertida/extrovertida">
+    <title>Sistema de Predicción de Personalidad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        Body {
+        body {
             background-color: #f8f9fa;
+            padding: 20px;
         }
-        .container {
-            margin-top: 50px;
+        .form-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+        .result-container {
+            margin-top: 20px;
             padding: 20px;
             border-radius: 10px;
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        h1 {
-            color: #343a40;
+        .introvert {
+            background-color: #d1ecf1;
+            color: #0c5460;
         }
-        .result {
-            margin-top: 20px;
-            font-size: 1.5em;
-            color: #007bff;
+        .extrovert {
+            background-color: #d4edda;
+            color: #155724;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center">Predicción de Personalidad</h1>
-        <form method="POST">
-            <div class="form-group">
-                <label for="val1">Apertura a nuevas experiencias:</label>
-                <input type="number" step="0.1" min="1" max="5" name="val1" class="form-control" required placeholder="Ingrese valor 1-5">
-                <small class="form-text text-muted">Escala de 1 (baja) a 5 (alta)</small>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="form-container">
+                    <h2 class="text-center mb-4">Sistema de Predicción de Personalidad</h2>
+                    <form method="POST" action="/">
+                        <div class="mb-3">
+                            <label for="val1" class="form-label">Facilidad para socializar (1-10)</label>
+                            <input type="number" class="form-control" id="val1" name="val1" min="1" max="10" required placeholder="Del 1 (bajo) a 10 (alto)">
+                        </div>
+                        <div class="mb-3">
+                            <label for="val2" class="form-label">Nivel de energía en grupos sociales (1-10)</label>
+                            <input type="number" class="form-control" id="val2" name="val2" min="1" max="10" required placeholder="Del 1 (bajo) a 10 (alto)">
+                        </div>
+                        <div class="mb-3">
+                            <label for="val3" class="form-label">Comodidad en eventos con desconocidos (1-10)</label>
+                            <input type="number" class="form-control" id="val3" name="val3" min="1" max="10" required placeholder="Del 1 (muy incómodo) a 10 (muy cómodo)">
+                        </div>
+                        <div class="mb-3">
+                            <label for="val4" class="form-label">Iniciativa en conversaciones (1-10)</label>
+                            <input type="number" class="form-control" id="val4" name="val4" min="1" max="10" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="val5" class="form-label">Tendencia a liderar (1-10)</label>
+                            <input type="number" class="form-control" id="val5" name="val5" min="1" max="10" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="val6" class="form-label">Energía en interacciones (1-10)</label>
+                            <input type="number" class="form-control" id="val6" name="val6" min="1" max="10" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="val7" class="form-label">Preferencia por grupos sociales: 
+                              <small class="text-muted">(1 = Prefiere grupos pequeños, 10 = Prefiere grupos grandes)</small>
+                            </label>
+                            <input type="number" class="form-control" id="val7" name="val7" min="1" max="10" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Calcular</button>
+                    </form>
+
+                    {% if error %}
+                    <div class="alert alert-danger mt-3">
+                        {{ error }}
+                    </div>
+                    {% endif %}
+
+                    {% if prediction %}
+                    <div class="result-container mt-4 text-center {{ 'introvert' if prediction == 'Introvertido' else 'extrovert' }}">
+                        <h4>Resultado:</h4>
+                        <h3 class="mb-3">{{ prediction }}</h3>
+                        <p class="mb-0">
+                            {% if prediction == 'Introvertido' %}
+                            Prefiere ambientes tranquilos y pequeños grupos.
+                            {% else %}
+                            Disfruta de la energía de grupos grandes y sociales.
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
             </div>
-            <div class="form-group">
-                <label for="val2">Responsabilidad:</label>
-                <input type="number" step="0.1" min="1" max="5" name="val2" class="form-control" required placeholder="Ingrese valor 1-5">
-                <small class="form-text text-muted">Escala de 1 (desorganizado) a 5 (organizado)</small>
-            </div>
-            <div class="form-group">
-                <label for="val3">Extroversión:</label>
-                <input type="number" step="0.1" min="1" max="5" name="val3" class="form-control" required placeholder="Ingrese valor 1-5">
-                <small class="form-text text-muted">Escala de 1 (introvertido) a 5 (extrovertido)</small>
-            </div>
-            <div class="form-group">
-                <label for="val4">Amabilidad:</label>
-                <input type="number" step="0.1" min="1" max="5" name="val4" class="form-control" required placeholder="Ingrese valor 1-5">
-                <small class="form-text text-muted">Escala de 1 (distante) a 5 (empático)</small>
-            </div>
-            <div class="form-group">
-                <label for="val5">Estabilidad emocional:</label>
-                <input type="number" step="0.1" min="1" max="5" name="val5" class="form-control" required placeholder="Ingrese valor 1-5">
-                <small class="form-text text-muted">Escala de 1 (reactivo) a 5 (estable)</small>
-            </div>
-            <div class="form-group">
-                <label for="val6">Habilidades sociales:</label>
-                <input type="number" step="0.1" min="1" max="5" name="val6" class="form-control" required placeholder="Ingrese valor 1-5">
-                <small class="form-text text-muted">Escala de 1 (torpe) a 5 (hábil)</small>
-            </div>
-            <div class="form-group">
-                <label for="val7">Energía y actividad:</label>
-                <input type="number" step="0.1" min="1" max="5" name="val7" class="form-control" required placeholder="Ingrese valor 1-5">
-                <small class="form-text text-muted">Escala de 1 (sedentario) a 5 (activo)</small>
-            </div>
-            <button type="submit" class="btn btn-primary btn-block">Predecir</button>
-        </form>
-        {% if prediction %}
-            <div class="result text-center">
-                <strong>Predicción:</strong> {{ prediction }}
-            </div>
-        {% endif %}
+        </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
