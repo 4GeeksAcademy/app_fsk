@@ -38,19 +38,38 @@
             padding: 10px;
             border-radius: 4px;
         }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <h2>Introduce the values</h2>
     
     <form action="/" method="post">
-        Tiempo en soledad: <input type="number" step="any" name="val1" required><br><br>
-        Miedo a la exposicion: <input type="number" step="any" name="val2" required><br><br>
-        Asistencia a eventos: <input type="number" step="any" name="val3" required><br><br>
-        Exposicion: <input type="number" step="any" name="val4" required><br><br>
-        Agotamiento luego de socializar: <input type="number" step="any" name="val5" required><br><br>
-        Circulo Social: <input type="number" step="any" name="val6" required><br><br>
-        Frecuencia de exposicion: <input type="number" step="any" name="val7" required><br><br>
+        <label for="val1">Tiempo en soledad:</label>
+        <input type="number" step="any" name="val1" required><br>
+        
+        <label for="val2">Miedo a la exposición:</label>
+        <input type="number" step="any" name="val2" required><br>
+        
+        <label for="val3">Asistencia a eventos:</label>
+        <input type="number" step="any" name="val3" required><br>
+        
+        <label for="val4">Exposición:</label>
+        <input type="number" step="any" name="val4" required><br>
+        
+        <label for="val5">Agotamiento luego de socializar:</label>
+        <input type="number" step="any" name="val5" required><br>
+        
+        <label for="val6">Círculo Social:</label>
+        <input type="number" step="any" name="val6" required><br>
+        
+        <label for="val7">Frecuencia de exposición:</label>
+        <input type="number" step="any" name="val7" required><br>
+        
         <input type="submit" value="Predict">
     </form>
     
