@@ -5,7 +5,7 @@ from joblib import load
 app = Flask(__name__)
 
 # Ruta al modelo
-model_path = os.path.join("models", "./models/RandomForestClassifier_default_42.sav")
+model_path = os.path.join("models", "../models/RandomForestClassifier_default_42.sav")
 model = load(open(model_path, "rb"))
 
 @app.route("/", methods=["GET", "POST"])
